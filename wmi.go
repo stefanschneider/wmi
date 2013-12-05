@@ -135,9 +135,15 @@ func loadEntity(dst interface{}, src *ole.IDispatch) error {
 		}
 		switch f.Kind() {
 		case reflect.String:
-			f.SetString(prop.ToString())
-		default:
-			l.Println("ignore:", n, f.Type())
+			s := prop.ToString()
+			cs := make([]byte, len(s))
+			copy(cs, s[:4])
+			f.SetString(string(cs))
+			if n == "Caption" {
+				fmt.Println(n, s, string(cs), prop.Val, &prop.Val, prop.VT, &prop.VT)
+			}
+		case reflect.Int64, reflect.Int:
+			f.SetInt(prop.Val)
 		}
 	}
 	return nil

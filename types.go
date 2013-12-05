@@ -4,4 +4,6 @@ type Win32_Process struct {
 	Name        string
 	Description string
 	OSName      string
+	CSName string
+	Caption string
 }
